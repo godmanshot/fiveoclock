@@ -1,71 +1,45 @@
 import React from "react";
+import 'react-native-gesture-handler';
 import {
-  Text,
-  Link,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
   NativeBaseProvider,
   extendTheme,
-  VStack,
-  Code,
 } from "native-base";
-import NativeBaseIcon from "./components/NativeBaseIcon";
+import { Provider } from "react-redux";
+import { useFonts } from "expo-font";
+import { PersistGate } from "redux-persist/integration/react";
+import store, { persistor } from "./store/store";
+import AppRouter from "./routers/AppRouter";
+import _theme from "./utils/theme";
 
-// Define the config
-const config = {
-  useSystemColorMode: false,
-  initialColorMode: "dark",
-};
-
-// extend the theme
-export const theme = extendTheme({ config });
+const theme = extendTheme(_theme);
 
 export default function App() {
+  
+  let [fontsLoaded] = useFonts({
+    'Nunito-ExtraLight': require('./assets/fonts/Nunito/Nunito-ExtraLight.ttf'),
+    'Nunito-ExtraLightItalic': require('./assets/fonts/Nunito/Nunito-ExtraLightItalic.ttf'),
+    'Nunito-Light': require('./assets/fonts/Nunito/Nunito-Light.ttf'),
+    'Nunito-LightItalic': require('./assets/fonts/Nunito/Nunito-LightItalic.ttf'),
+    'Nunito-Regular': require('./assets/fonts/Nunito/Nunito-Regular.ttf'),
+    'Nunito-Italic': require('./assets/fonts/Nunito/Nunito-Italic.ttf'),
+    'Nunito-Medium': require('./assets/fonts/Nunito/Nunito-Medium.ttf'),
+    'Nunito-MediumItalic': require('./assets/fonts/Nunito/Nunito-MediumItalic.ttf'),
+    'Nunito-SemiBold': require('./assets/fonts/Nunito/Nunito-SemiBold.ttf'),
+    'Nunito-SemiBoldItalic': require('./assets/fonts/Nunito/Nunito-SemiBoldItalic.ttf'),
+    'Nunito-Bold': require('./assets/fonts/Nunito/Nunito-Bold.ttf'),
+    'Nunito-BoldItalic': require('./assets/fonts/Nunito/Nunito-BoldItalic.ttf'),
+    'Nunito-ExtraBold': require('./assets/fonts/Nunito/Nunito-ExtraBold.ttf'),
+    'Nunito-ExtraBoldItalic': require('./assets/fonts/Nunito/Nunito-ExtraBoldItalic.ttf'),
+  });
+  
   return (
-    <NativeBaseProvider>
-      <Center
-        _dark={{ bg: "blueGray.900" }}
-        _light={{ bg: "blueGray.50" }}
-        px={4}
-        flex={1}
-      >
-        <VStack space={5} alignItems="center">
-          <NativeBaseIcon />
-          <Heading size="lg">Welcome to NativeBase</Heading>
-          <HStack space={2} alignItems="center">
-            <Text>Edit</Text>
-            <Code>App.tsx</Code>
-            <Text>and save to reload.</Text>
-          </HStack>
-          <Link href="https://docs.nativebase.io" isExternal>
-            <Text color="primary.500" underline fontSize={"xl"}>
-              Learn NativeBase
-            </Text>
-          </Link>
-          <ToggleDarkMode />
-        </VStack>
-      </Center>
-    </NativeBaseProvider>
-  );
-}
-
-// Color Switch Component
-function ToggleDarkMode() {
-  const { colorMode, toggleColorMode } = useColorMode();
-  return (
-    <HStack space={2} alignItems="center">
-      <Text>Dark</Text>
-      <Switch
-        isChecked={colorMode === "light" ? true : false}
-        onToggle={toggleColorMode}
-        aria-label={
-          colorMode === "light" ? "switch to dark mode" : "switch to light mode"
-        }
-      />
-      <Text>Light</Text>
-    </HStack>
+    fontsLoaded ?
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <NativeBaseProvider theme={theme}>
+          <AppRouter/>
+        </NativeBaseProvider>
+      </PersistGate>
+    </Provider> : <></>
   );
 }
