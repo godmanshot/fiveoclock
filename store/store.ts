@@ -8,7 +8,7 @@ import createSecureStore from "redux-persist-expo-securestore";
 const appPersistConfig = {
     key: 'root',
     storage: createSecureStore(),
-    whitelist: ['']
+    whitelist: ['authToken', 'activeCanteen']
 }
 
 const reducer = combineReducers({

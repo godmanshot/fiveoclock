@@ -13,7 +13,7 @@ export function setBearerToken(token: string) {
 }
 
 export const handleErrorApi = (
-    errorMesageHandler: (message: string) => void,
+    errorMesageHandler: (message: string, status: number|undefined) => void,
     fieldErrorHandler: (field: string, error: string) => void
 ) => (e: Error | AxiosError) => {
 
@@ -23,7 +23,8 @@ export const handleErrorApi = (
                 fieldErrorHandler(key, e.response.data.errors[key]);
             }
         }
-        errorMesageHandler(e.response?.data.message ?? e.message);
+        const message = e.response?.data.message;
+        errorMesageHandler(message != '' ? message : e.message, e.response?.status);
     }
     
 };

@@ -9,4 +9,8 @@ const apiRegister = (name: string, email: string, phone: string, password: strin
     });
 }
 
-export { apiRegister };
+const apiLogin = (phone: string, password: string) => {
+    return client.get<string>('/login?phone='+phone+'&password='+password);
+}
+
+export { apiRegister, apiLogin };
