@@ -1,11 +1,11 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { BackButton } from "../components/BackButton";
 import WelcomeScreen from "../screens/Auth/WelcomeScreen";
 import LoginScreen from "../screens/Auth/LoginScreen";
 import RegisterScreen from "../screens/Auth/RegisterScreen";
 import VerificationScreen from "../screens/Auth/VerificationScreen";
-import { BackButton } from "../components/BackButton";
 
 export type AuthRouterParamsList = {
     Welcome: undefined,

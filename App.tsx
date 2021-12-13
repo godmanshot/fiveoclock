@@ -30,6 +30,8 @@ export default function App() {
     'Nunito-BoldItalic': require('./assets/fonts/Nunito/Nunito-BoldItalic.ttf'),
     'Nunito-ExtraBold': require('./assets/fonts/Nunito/Nunito-ExtraBold.ttf'),
     'Nunito-ExtraBoldItalic': require('./assets/fonts/Nunito/Nunito-ExtraBoldItalic.ttf'),
+    'Nunito-Black': require('./assets/fonts/Nunito/Nunito-Black.ttf'),
+    'Nunito-BlackItalic': require('./assets/fonts/Nunito/Nunito-BlackItalic.ttf'),
   });
   
   return (

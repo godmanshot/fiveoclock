@@ -13,6 +13,9 @@ export default {
             700: '#004E47',
             800: '#004E47',
             900: '#004E47',
+        },
+        fiveoclock_secondary: {
+            100: '#f4f2dd',
         }
     },
     config: {
@@ -52,6 +55,10 @@ export default {
             800: {
                 normal: 'Nunito-ExtraBold',
                 italic: 'Nunito-ExtraBoldItalic',
+            },
+            900: {
+                normal: 'Nunito-Black',
+                italic: 'Nunito-BlackItalic',
             },
         },
     },

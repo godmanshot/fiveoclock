@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, Heading, HStack, ScrollView, Spinner, Text, VStack, Image } from "native-base"
-import { MainRouterParamsList } from "../../routers/MainRouter";
 import { HeaderBackground } from "../../components/HeaderBackground";
 import { apiCanteens, Canteen } from "../../api/canteen";
 import { handleErrorApi } from "../../api/client";
 import { Pressable } from "react-native";
 import { useActiveCanteen } from "../../utils/Helpers";
-
-type SelectCanteenNavigationProps = NativeStackNavigationProp<MainRouterParamsList, 'SelectCanteen'>;
 
 export default function SelectCanteenScreen() {
     const [ canteens, setCanteens ] = useState<Canteen[]>([]);
@@ -30,7 +25,6 @@ export default function SelectCanteenScreen() {
         })
         .catch(handleErrorApi(
             (message: string) => {setIsLoading(false);alert(message)},
-            (field: string, message: string) => {}
         ));
     }, []);
 

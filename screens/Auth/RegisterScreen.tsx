@@ -36,6 +36,7 @@ export default function RegisterScreen() {
     const handlePassword = (value: string) => {setErrorPassword(''); setPassword(value)};
 
     const handleRegister = () => {
+        // navigation.navigate("Verification", { phone: phone });
         setIsLoading(true);
 
         apiRegister(name, email, phone, password)
@@ -85,6 +86,7 @@ export default function RegisterScreen() {
                         <Text fontSize={16} color="muted.400">Номер телефона</Text>
                     </FormControl.Label>
                     <Input
+                        keyboardType="number-pad"
                         value={phone}
                         onChangeText={handlePhone}
                         InputLeftElement={
@@ -105,7 +107,7 @@ export default function RegisterScreen() {
                     <FormControl.Label>
                         <Text fontSize={16} color="muted.400">Почта</Text>
                     </FormControl.Label>
-                    <Input value={email} onChangeText={handleEmail} borderColor="fiveoclock.700" fontSize={18} borderRadius="10px" padding="15px" placeholder="example@site.com" />
+                    <Input autoCapitalize="none" value={email} onChangeText={handleEmail} borderColor="fiveoclock.700" fontSize={18} borderRadius="10px" padding="15px" placeholder="example@site.com" />
                     <FormControl.ErrorMessage>
                         {errorEmail}
                     </FormControl.ErrorMessage>
@@ -115,7 +117,7 @@ export default function RegisterScreen() {
                     <FormControl.Label>
                         <Text fontSize={16} color="muted.400">Пароль</Text>
                     </FormControl.Label>
-                    <Input value={password} onChangeText={handlePassword} type="password" borderColor="fiveoclock.700" fontSize={18} borderRadius="10px" padding="15px" placeholder="********" />
+                    <Input autoCapitalize="none" value={password} onChangeText={handlePassword} type="password" borderColor="fiveoclock.700" fontSize={18} borderRadius="10px" padding="15px" placeholder="********" />
                     <FormControl.ErrorMessage>
                         {errorPassword}
                     </FormControl.ErrorMessage>

@@ -13,18 +13,18 @@ export function setBearerToken(token: string) {
 }
 
 export const handleErrorApi = (
-    errorMesageHandler: (message: string, status: number|undefined) => void,
-    fieldErrorHandler: (field: string, error: string) => void
+    errorMesageHandler?: ((message: string, status: number|undefined) => void) | undefined,
+    fieldErrorHandler?: ((field: string, error: string) => void) | undefined
 ) => (e: Error | AxiosError) => {
 
     if(axios.isAxiosError(e)) {
         if(e.response?.status === 422 && e.response.data.errors !== undefined && Object.keys(e.response.data.errors).length > 0) {
             for (let key in e.response.data.errors) {
-                fieldErrorHandler(key, e.response.data.errors[key]);
+                fieldErrorHandler ? fieldErrorHandler(key, e.response.data.errors[key]) : true;
             }
         }
         const message = e.response?.data.message;
-        errorMesageHandler(message != '' ? message : e.message, e.response?.status);
+        errorMesageHandler ? errorMesageHandler(message != '' ? message : e.message, e.response?.status) : true;
     }
     
 };
