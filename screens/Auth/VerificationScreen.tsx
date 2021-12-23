@@ -5,6 +5,9 @@ import { Button, Center, Heading, HStack, Input, Pressable, Text, VStack } from 
 import { AuthRouterParamsList } from "../../routers/AuthRouter";
 import { useAppDispatch } from "../../store/store";
 import { HeaderBackground } from "../../components/HeaderBackground";
+import { handleErrorApi } from "../../api/client";
+import { apiVerification } from "../../api/auth";
+import { useAuth } from "../../utils/Helpers";
 
 type VerificationNavigationProps = NativeStackNavigationProp<AuthRouterParamsList, 'Verification'>;
 type VerificationRouteProps = RouteProp<AuthRouterParamsList, 'Verification'>;
@@ -12,6 +15,8 @@ type VerificationRouteProps = RouteProp<AuthRouterParamsList, 'Verification'>;
 export default function VerificationScreen() {
     const navigation = useNavigation<VerificationNavigationProps>();
     const route = useRoute<VerificationRouteProps>();
+
+    const { setAuth } = useAuth();
 
     const [ digit1, setDigit1 ] = useState('');
     const [ digit2, setDigit2 ] = useState('');
@@ -40,11 +45,22 @@ export default function VerificationScreen() {
 
     const handleVerify = () => {
         setIsLoading(true);
+
         if(allDigits.length != 4) {
             return 
         }
-        console.log(allDigits);
-        setIsLoading(false);
+
+        apiVerification(route.params.phone, allDigits).then(({ data }) => {
+
+            setAuth(data);
+            setIsLoading(false);
+
+        }).catch(handleErrorApi(
+            (message) => {
+                alert(message);
+                setIsLoading(false);
+            }
+        ));
     };
 
     return <>

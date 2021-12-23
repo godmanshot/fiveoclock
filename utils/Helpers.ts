@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { Canteen } from "../api/canteen";
 import { BasketProduct, Product } from "../api/products";
-import { addProductToBasket, addProductToFavorite, clearActiveCanteen, clearBasket, clearFavorite, deleteProductFromBasket, deleteProductFromFavorite, setActiveCanteen, setAuthToken } from "../store/AppReducer";
+import { addCountProductToBasket, addProductToBasket, addProductToFavorite, changeAddress, changeFloor, changeHouse, changeRoom, clearActiveCanteen, clearBasket, clearFavorite, deleteProductFromBasket, deleteProductFromFavorite, setActiveCanteen, setAuthToken, subCountProductToBasket } from "../store/AppReducer";
 import { useAppDispatch, useAppSelector } from "../store/store";
 
 export const useAuth = () => {
@@ -10,8 +10,9 @@ export const useAuth = () => {
 
     const dispatch = useAppDispatch();
     const setAuth = useCallback((token: string) => dispatch(setAuthToken(token)), [dispatch]);
+    const logOut = useCallback(() => dispatch(setAuthToken('')), [dispatch]);
     
-    return { isAuth, setAuth };
+    return { isAuth, setAuth, logOut };
     
 };
 
@@ -19,8 +20,14 @@ export const useActiveCanteen = () => {
     const canteen = useAppSelector(state => state.app.activeCanteen);
 
     const dispatch = useAppDispatch();
-    const setCanteen = useCallback((canteen: Canteen) => dispatch(setActiveCanteen(canteen)), [dispatch]);
-    const clearCanteen = useCallback(() => dispatch(clearActiveCanteen()), [dispatch]);
+    const setCanteen = useCallback((canteen: Canteen) => {
+        dispatch(clearBasket());
+        dispatch(setActiveCanteen(canteen));
+    }, [dispatch]);
+    const clearCanteen = useCallback(() => {
+        dispatch(clearBasket());
+        dispatch(clearActiveCanteen());
+    }, [dispatch]);
 
     return { canteen, setCanteen, clearCanteen };
 };
@@ -34,6 +41,8 @@ export const useBasket = () => {
     const clearAllBasket = useCallback(() => dispatch(clearBasket()), [dispatch]);
     const hasInBasket = useCallback((product_id: number) => basketProducts.find(product => product.id == product_id) !== undefined, [basketProducts]);
     const productCountInBasket = useCallback(() => basketProducts.length, [basketProducts]);
+    const addProductCount = useCallback((product_id: number) => dispatch(addCountProductToBasket(product_id)), [dispatch]);
+    const subProductCount = useCallback((product_id: number) => dispatch(subCountProductToBasket(product_id)), [dispatch]);
 
     return {
         basketProducts,
@@ -41,7 +50,9 @@ export const useBasket = () => {
         removeFromBasket,
         clearAllBasket,
         hasInBasket,
-        productCountInBasket
+        productCountInBasket,
+        addProductCount,
+        subProductCount,
     };
 };
 
@@ -64,3 +75,24 @@ export const useFavorites = () => {
         productCountInFavorite
     };
 };
+
+export const useContacts = () => {
+    const { address, house, floor, room } = useAppSelector(state => state.app.contacts);
+    const dispatch = useAppDispatch();
+
+    const setAddress = useCallback((value: string) => dispatch(changeAddress(value)), [dispatch]);
+    const setHouse = useCallback((value: string) => dispatch(changeHouse(value)), [dispatch]);
+    const setFloor = useCallback((value: string) => dispatch(changeFloor(value)), [dispatch]);
+    const setRoom = useCallback((value: string) => dispatch(changeRoom(value)), [dispatch]);
+
+    return {
+        address,
+        house,
+        floor,
+        room,
+        setAddress,
+        setHouse,
+        setFloor,
+        setRoom,
+    };
+}

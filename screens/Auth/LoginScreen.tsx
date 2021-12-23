@@ -74,7 +74,7 @@ export default function LoginScreen() {
                             source={require("../../assets/flag_icon.png")}
                             alt="phone"
                         />
-                    } borderColor="fiveoclock.700" fontSize={18} borderRadius="10px" padding="15px" placeholder="+7(777)123-45-67"/>
+                    } borderColor="muted.300" _focus={{borderColor: "fiveoclock.500"}} fontSize={18} borderRadius="10px" padding="15px" placeholder="+7(777)123-45-67"/>
                 <FormControl.ErrorMessage>
                     {errorPhone}
                 </FormControl.ErrorMessage>
@@ -84,7 +84,7 @@ export default function LoginScreen() {
                 <FormControl.Label>
                     <Text fontSize={16} color="muted.400">Пароль</Text>
                 </FormControl.Label>
-                <Input autoCapitalize="none" value={password} onChangeText={handlePassword} type="password" borderColor="fiveoclock.700" fontSize={18} borderRadius="10px" padding="15px" placeholder="********" />
+                <Input autoCapitalize="none" value={password} onChangeText={handlePassword} type="password" borderColor="muted.300" _focus={{borderColor: "fiveoclock.500"}} fontSize={18} borderRadius="10px" padding="15px" placeholder="********" />
                 <FormControl.ErrorMessage>
                     {errorPassword}
                 </FormControl.ErrorMessage>

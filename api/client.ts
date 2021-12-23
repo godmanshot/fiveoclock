@@ -1,16 +1,11 @@
 import axios, { AxiosError } from "axios"
+import store from "../store/store";
 
 const client = axios.create({
     baseURL: "https://five.com.kz/api"
 });
 
-export function setBearerToken(token: string) {
-    if(token !== '') {
-        client.defaults.headers.common = {'Authorization': `Bearer ${token}`};
-    } else {
-        client.defaults.headers.common = {};
-    }
-}
+export const authHeader = () => ({'Authorization': `Bearer ${store.getState().app.authToken}`})
 
 export const handleErrorApi = (
     errorMesageHandler?: ((message: string, status: number|undefined) => void) | undefined,
@@ -30,22 +25,3 @@ export const handleErrorApi = (
 };
 
 export default client;
-
-export interface PaginatedResourceData<T> {
-    data: T[];
-    meta: {
-        current_page: number;
-        from: number;
-        last_page: number;
-        path: string;
-        per_page: number;
-        to: number;
-        total: number;
-    };
-    links: {
-        first: string|null;
-        last: string|null;
-        next: string|null;
-        prev: string|null;
-    };
-}

@@ -5,8 +5,8 @@ export interface Category {
     name: string;
 }
 
-const apiCategories = () => {
-    return client.get<Category[]>('/categories');
+const apiCategories = (canteen_id: number) => {
+    return client.get<Category[]>('/categories?canteen_id='+canteen_id);
 };
 
 export { apiCategories };

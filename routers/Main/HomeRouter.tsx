@@ -13,7 +13,7 @@ export type HomeRouterParamList = {
     Product: {
         product: Product;
     };
-    Popular: undefined
+    Popular: undefined;
 };
 
 const HomeStack = createNativeStackNavigator<HomeRouterParamList>();
@@ -24,8 +24,8 @@ export const HomeRouter = () => {
     
     return <>
         <HomeStack.Navigator screenOptions={({ navigation, route }: NativeStackScreenProps<HomeRouterParamList>) => ({
-            headerTitle: props => route.name == 'Home' ? <HeaderCanteenSelect canteenName={canteen!.name} handleClearCanteen={handleClearCanteen}/> : <></>,
-            headerLeft: () => navigation.canGoBack() ? <BackButton handleBack={navigation.goBack}/> : <></>,
+            headerTitle: () => route.name == 'Home' ? <HeaderCanteenSelect canteenName={canteen!.name} handleClearCanteen={handleClearCanteen}/> : <></>,
+            headerLeft: () => route.name != 'Home' && navigation.canGoBack() ? <BackButton handleBack={navigation.goBack}/> : <></>,
             headerBackVisible: false,
             headerShadowVisible: false,
             headerTransparent: true,

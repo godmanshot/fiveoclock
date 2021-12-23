@@ -7,6 +7,12 @@ interface AppState {
     activeCanteen: Canteen | undefined;
     basketProducts: BasketProduct[];
     favoriteProducts: Product[];
+    contacts: {
+        address: string;
+        house: string;
+        floor: string;
+        room: string;
+    }
 }
 
 const initState: AppState = {
@@ -14,6 +20,12 @@ const initState: AppState = {
     activeCanteen: undefined,
     basketProducts: [],
     favoriteProducts: [],
+    contacts: {
+        address: '',
+        house: '',
+        floor: '',
+        room: ''
+    }
 };
 
 const AppReducer = createSlice({
@@ -32,6 +44,7 @@ const AppReducer = createSlice({
         clearActiveCanteen: (state: AppState) => {
             state.activeCanteen = undefined;
         },
+
         addProductToBasket: (state: AppState, { payload }: PayloadAction<BasketProduct>) => {
             state.basketProducts = state.basketProducts.filter(product => product.id !== payload.id);
             state.basketProducts.push(payload);
@@ -39,9 +52,22 @@ const AppReducer = createSlice({
         deleteProductFromBasket: (state: AppState, { payload }: PayloadAction<number>) => {
             state.basketProducts = state.basketProducts.filter(product => product.id !== payload);
         },
+        addCountProductToBasket: (state: AppState, { payload }: PayloadAction<number>) => {
+            const product = state.basketProducts.find(product => product.id == payload);
+            if(product != undefined) {
+                product.count += 1;
+            }
+        },
+        subCountProductToBasket: (state: AppState, { payload }: PayloadAction<number>) => {
+            const product = state.basketProducts.find(product => product.id == payload);
+            if(product != undefined && product.count > 1) {
+                product.count -= 1;
+            }
+        },
         clearBasket: (state: AppState) => {
             state.basketProducts = [];
         },
+
         addProductToFavorite: (state: AppState, { payload }: PayloadAction<Product>) => {
             state.favoriteProducts = state.favoriteProducts.filter(product => product.id !== payload.id);
             state.favoriteProducts.push(payload);
@@ -53,6 +79,18 @@ const AppReducer = createSlice({
             state.basketProducts = [];
         },
 
+        changeAddress: (state: AppState, { payload }: PayloadAction<string>) => {
+            state.contacts.address = payload;
+        },
+        changeHouse: (state: AppState, { payload }: PayloadAction<string>) => {
+            state.contacts.house = payload;
+        },
+        changeFloor: (state: AppState, { payload }: PayloadAction<string>) => {
+            state.contacts.floor = payload;
+        },
+        changeRoom: (state: AppState, { payload }: PayloadAction<string>) => {
+            state.contacts.room = payload;
+        },
     }
 });
 
@@ -63,9 +101,15 @@ export const {
     clearActiveCanteen,
     addProductToBasket,
     deleteProductFromBasket,
+    addCountProductToBasket,
+    subCountProductToBasket,
     clearBasket,
     addProductToFavorite,
     deleteProductFromFavorite,
     clearFavorite,
+    changeAddress,
+    changeHouse,
+    changeFloor,
+    changeRoom,
 } = AppReducer.actions;
 export default AppReducer.reducer;

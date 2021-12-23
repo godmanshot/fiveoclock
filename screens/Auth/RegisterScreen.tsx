@@ -8,14 +8,14 @@ import { MaskService } from "react-native-masked-text";
 import { ScrollView } from "react-native-gesture-handler";
 import { apiRegister } from "../../api/auth";
 import { handleErrorApi } from "../../api/client";
-import { useAppDispatch } from "../../store/store";
-import { setAuthToken } from "../../store/AppReducer";
+import { useAuth } from "../../utils/Helpers";
 
 type RegisterNavigationProps = NativeStackNavigationProp<AuthRouterParamsList, 'Register'>;
 
 export default function RegisterScreen() {
     const navigation = useNavigation<RegisterNavigationProps>();
-    const dispatch = useAppDispatch();
+
+    const { setAuth } = useAuth();
 
     const [ isLoading, setIsLoading ] = useState(false);
 
@@ -36,13 +36,12 @@ export default function RegisterScreen() {
     const handlePassword = (value: string) => {setErrorPassword(''); setPassword(value)};
 
     const handleRegister = () => {
-        // navigation.navigate("Verification", { phone: phone });
         setIsLoading(true);
 
         apiRegister(name, email, phone, password)
         .then(({ data }) => {
             setIsLoading(false);
-            dispatch(setAuthToken(data));
+            navigation.navigate("Verification", { phone: phone });
         })
         .catch(handleErrorApi(
             (message) => {
@@ -75,7 +74,7 @@ export default function RegisterScreen() {
                     <FormControl.Label>
                         <Text fontSize={16} color="muted.400">Ваше имя</Text>
                     </FormControl.Label>
-                    <Input value={name} onChangeText={handleName} borderColor="fiveoclock.700" fontSize={18} borderRadius="10px" padding="15px" placeholder="Максим"/>
+                    <Input value={name} onChangeText={handleName} borderColor="muted.300" _focus={{borderColor: "fiveoclock.500"}} fontSize={18} borderRadius="10px" padding="15px" placeholder="Максим"/>
                     <FormControl.ErrorMessage>
                         {errorName}
                     </FormControl.ErrorMessage>
@@ -97,7 +96,7 @@ export default function RegisterScreen() {
                                 source={require("../../assets/flag_icon.png")}
                                 alt="phone"
                             />
-                        } borderColor="fiveoclock.700" fontSize={18} borderRadius="10px" padding="15px" placeholder="+7(777)123-45-67"/>
+                        } borderColor="muted.300" _focus={{borderColor: "fiveoclock.500"}} fontSize={18} borderRadius="10px" padding="15px" placeholder="+7(777)123-45-67"/>
                     <FormControl.ErrorMessage>
                         {errorPhone}
                     </FormControl.ErrorMessage>
@@ -107,7 +106,7 @@ export default function RegisterScreen() {
                     <FormControl.Label>
                         <Text fontSize={16} color="muted.400">Почта</Text>
                     </FormControl.Label>
-                    <Input autoCapitalize="none" value={email} onChangeText={handleEmail} borderColor="fiveoclock.700" fontSize={18} borderRadius="10px" padding="15px" placeholder="example@site.com" />
+                    <Input autoCapitalize="none" value={email} onChangeText={handleEmail} borderColor="muted.300" _focus={{borderColor: "fiveoclock.500"}} fontSize={18} borderRadius="10px" padding="15px" placeholder="example@site.com" />
                     <FormControl.ErrorMessage>
                         {errorEmail}
                     </FormControl.ErrorMessage>
@@ -117,7 +116,7 @@ export default function RegisterScreen() {
                     <FormControl.Label>
                         <Text fontSize={16} color="muted.400">Пароль</Text>
                     </FormControl.Label>
-                    <Input autoCapitalize="none" value={password} onChangeText={handlePassword} type="password" borderColor="fiveoclock.700" fontSize={18} borderRadius="10px" padding="15px" placeholder="********" />
+                    <Input autoCapitalize="none" value={password} onChangeText={handlePassword} type="password" borderColor="muted.300" _focus={{borderColor: "fiveoclock.500"}} fontSize={18} borderRadius="10px" padding="15px" placeholder="********" />
                     <FormControl.ErrorMessage>
                         {errorPassword}
                     </FormControl.ErrorMessage>

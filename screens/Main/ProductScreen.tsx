@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Heading, Text, VStack, Image, HStack, Center, ScrollView, Box, Button, Actionsheet, useToast } from "native-base"
+import { Heading, Text, VStack, Image, HStack, Center, ScrollView, Box, Button, Actionsheet, useToast, Icon } from "native-base"
 import { HomeRouterParamList } from "../../routers/Main/HomeRouter";
 import { Pressable } from "react-native";
 import { BasketProduct, Product, Variation } from "../../api/products";
 import { useBasket, useFavorites } from "../../utils/Helpers";
+import { Feather } from "@expo/vector-icons";
 
 type ProductNavigationProps = NativeStackNavigationProp<HomeRouterParamList, 'Product'>;
 type ProductRouteProps = RouteProp<HomeRouterParamList, 'Product'>;
@@ -32,6 +33,7 @@ export default function ProductScreen() {
         let _product: BasketProduct = { ...product, variation_id: variation?.id, count: productCount };
         addToBasket(_product);
         toast.show({
+            placement: "top",
             title: "Продукт добавлен в корзину",
             duration: 1000,
             status: "success",
@@ -41,6 +43,7 @@ export default function ProductScreen() {
     const handleRemoveFromBasket = (product_id: number) => {
         removeFromBasket(product_id);
         toast.show({
+            placement: "top",
             title: "Продукт убран из корзины",
             duration: 1000,
             status: "error",
@@ -50,6 +53,7 @@ export default function ProductScreen() {
     const handleAddToFavorite = (product: Product) => {
         addToFavorite(product);
         toast.show({
+            placement: "top",
             title: "Продукт добавлен в избранное",
             duration: 1000,
             status: "success",
@@ -59,6 +63,7 @@ export default function ProductScreen() {
     const handleRemoveFromFavorite = (product_id: number) => {
         removeFromFavorite(product_id);
         toast.show({
+            placement: "top",
             title: "Продукт убран из избранного",
             duration: 1000,
             status: "error",
@@ -130,8 +135,13 @@ export default function ProductScreen() {
 
                 <Button isDisabled={!product.is_active} width="100%" height="60px" backgroundColor="fiveoclock.500" borderRadius="5px" onPress={() => hasInBasket(product.id) ? handleRemoveFromBasket(product.id) : handleAddToBasket(product)}>
                     <Center flexDirection="row">
-                        <Image source={require('../../assets/cart.png')} size="20px" mr="5px" alt="basket"/>
-                        <Text color="white" fontSize={20} fontWeight={700}>{hasInBasket(product.id) ? 'В корзине' : 'В корзину'}</Text>
+                        {hasInBasket(product.id) ? <>
+                            <Icon as={Feather} name="check" size="20px" mr="5px" color="white"/>
+                            <Text color="white" fontSize={20} fontWeight={700}>В корзине</Text>
+                        </> : <>
+                            <Image source={require('../../assets/cart.png')} size="20px" mr="5px" alt="basket"/>
+                            <Text color="white" fontSize={20} fontWeight={700}>В корзину</Text>
+                        </>}
                     </Center>
                 </Button>
             </VStack>

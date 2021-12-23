@@ -1,14 +1,13 @@
-import { combineReducers, configureStore, createStore } from "@reduxjs/toolkit";
+import { combineReducers, createStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { persistReducer, persistStore } from 'redux-persist';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import ExpoFileSystemStorage from "redux-persist-expo-filesystem"
 import AppReducer from "./AppReducer";
-import createSecureStore from "redux-persist-expo-securestore";
 
 const appPersistConfig = {
     key: 'root',
-    storage: createSecureStore(),
-    whitelist: ['authToken', 'activeCanteen']
+    storage: ExpoFileSystemStorage,
+    whitelist: ['authToken', 'activeCanteen', 'favoriteProducts', 'contacts']
 }
 
 const reducer = combineReducers({

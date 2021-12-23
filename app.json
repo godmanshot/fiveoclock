@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "fiveoclock",
+    "name": "Five O'Clock",
     "slug": "fiveoclock",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,13 +17,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.godmanshot.fiveoclock"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.godmanshot.fiveoclock"
     },
     "web": {
       "favicon": "./assets/favicon.png"

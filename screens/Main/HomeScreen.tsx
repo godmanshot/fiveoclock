@@ -23,6 +23,7 @@ const ProductCard = ({product}: {product: Product}) => {
         let _product: BasketProduct = { ...product, variation_id: undefined, count: 1 };
         addToBasket(_product);
         toast.show({
+            placement: "top",
             title: "Продукт добавлен в корзину",
             duration: 1000,
             status: "success",
@@ -32,6 +33,7 @@ const ProductCard = ({product}: {product: Product}) => {
     const handleRemoveFromBasket = (product_id: number) => {
         removeFromBasket(product_id);
         toast.show({
+            placement: "top",
             title: "Продукт убран из корзины",
             duration: 1000,
             status: "error",
@@ -57,15 +59,13 @@ const ProductCard = ({product}: {product: Product}) => {
                         {product.price} тг.
                     </Text>
                 </Center>
-                <Pressable onPress={() => hasInBasket(product.id) ? handleRemoveFromBasket(product.id) : handleAddToBasket(product)}>
-                    <Center bgColor="fiveoclock.500" size="40px" borderTopLeftRadius="5px" borderBottomRightRadius="5px">
-                        {hasInBasket(product.id) ? <>
-                            <Image source={cardIcon} size="20px" alt="basket"/>
-                        </> : <>
-                            <Text fontWeight={800} fontSize={20} color="white">+</Text>
-                        </>}
-                    </Center>
-                </Pressable>
+                <Button isDisabled={!product.is_active} borderTopRightRadius={0} borderBottomLeftRadius={0} borderTopLeftRadius="5px" borderBottomRightRadius="5px" bgColor="fiveoclock.500" size="40px" onPress={() => hasInBasket(product.id) ? handleRemoveFromBasket(product.id) : handleAddToBasket(product)}>
+                    {hasInBasket(product.id) ? <>
+                        <Image source={cardIcon} size="20px" alt="basket"/>
+                    </> : <>
+                        <Text fontWeight={800} fontSize={20} color="white">+</Text>
+                    </>}
+                </Button>
             </HStack>
         </Box>
     </>;
@@ -83,7 +83,7 @@ export default function HomeScreen() {
     const [ productsLoading, setProductsLoading ] = useState(false);
 
     useEffect(() => {
-        apiCategories().then(( { data }) => {
+        apiCategories(canteen!.id).then(( { data }) => {
             setCategories(data);
             if(data.length > 0) {
                 setActiveCategory(data[0].id)
